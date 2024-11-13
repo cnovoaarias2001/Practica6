@@ -13,12 +13,13 @@ services:<br>
   dns-server:<br>
     image: internetsystemsconsortium/bind9:9.18<br>
 
-    container_name: dns_server<br>
-    networks:<br>
-      bind9_subnet:<br>
-        ipv4_address: 172.20.0.1  # IP del servidor DNS en la red existente<br>
-    ports:<br>
-      - "1053:53/udp"  # Tuve que utilizar este puerto debido a que no estaba ocupado<br>
+container_name: dns_server<br>
+networks:<br>
+  bind9_subnet:<br>
+    ipv4_address: 172.20.0.1  # IP del servidor DNS en la red existente<br>
+ports:<br>
+  - "1053:53/udp"  # Tuve que utilizar este puerto debido a que no estaba ocupado<br>
+
 
   cliente:<br>
     image: alpine:latest<br>
@@ -69,22 +70,24 @@ networks:<br>
 }<br><br>
 
 **5º named.conf.default**<br>
-options {<br>
-	directory "/var/cache/bind";<br>
 
-	forwarders {<br>
-	 	8.8.8.8;<br>
-		1.1.1.1;<br>
-	 };<br>
-	 forward only;<br>
+options {
+directory "/var/cache/bind";
 
-	listen-on { any; };<br>
-	listen-on-v6 { any; };<br>
+forwarders {<br>
+ 	8.8.8.8;<br>
+	1.1.1.1;<br>
+ };<br>
+ forward only;<br>
 
-	allow-query {<br>
-		any;<br>
-	};<br>
+listen-on { any; };<br>
+listen-on-v6 { any; };<br>
+
+allow-query {<br>
+	any;<br>
 };<br>
+
+};
 
 
 **6º**
